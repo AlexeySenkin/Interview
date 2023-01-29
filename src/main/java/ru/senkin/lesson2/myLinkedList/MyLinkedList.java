@@ -87,7 +87,7 @@ public class MyLinkedList<T> {
             count += 1;
             elementTNode = elementTNode.getNext();
         }
-        return elementTNode.getItem();
+        return Objects.requireNonNull(elementTNode).getItem();
     }
 
     public void clear() {
