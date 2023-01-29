@@ -24,14 +24,11 @@ public class Main {
         System.out.println(integerMyLinkedList);
         integerMyLinkedList.add(10, 1000);
         System.out.println(integerMyLinkedList);
-
-
         integerMyLinkedList.remove();
         System.out.println(integerMyLinkedList);
-
         integerMyLinkedList.remove(100);
         System.out.println(integerMyLinkedList);
-
+        System.out.println(integerMyLinkedList.getItem(2));
         integerMyLinkedList.clear();
         System.out.println(integerMyLinkedList);
 

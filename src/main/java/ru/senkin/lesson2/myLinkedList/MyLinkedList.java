@@ -77,6 +77,19 @@ public class MyLinkedList<T> {
         this.size -= 1;
     }
 
+    public T getItem(Integer index) {
+        if (index < 0 || this.size == 0 || index > this.size) {
+            return null;
+        }
+        Node<T> elementTNode = this.first;
+        int count = 1;
+        while (elementTNode != null & count < index) {
+            count += 1;
+            elementTNode = elementTNode.getNext();
+        }
+        return elementTNode.getItem();
+    }
+
     public void clear() {
         this.first = null;
         this.size = 0;
