@@ -1,14 +1,17 @@
 package ru.senkin.lesson2.myLinkedList;
+import ru.senkin.lesson2.MyList;
+
 import java.util.Objects;
 
-public class MyLinkedList<T> {
-    Integer size;
-    Node<T> first;
-    Node<T> last;
+public class MyLinkedList<T> implements MyList<T> {
+    private Integer size;
+    private Node<T> first;
+    private Node<T> last;
 
     public MyLinkedList() {
         this.size = 0;
     }
+    @Override
     public void add(T value) {
         if (this.size == 0) {
             this.size = 1;
@@ -21,7 +24,8 @@ public class MyLinkedList<T> {
         }
     }
 
-    public void add(int index, T value) {
+    @Override
+    public void add(Integer index, T value) {
         if (index < 0 || value == null) {
             return;
         }
@@ -32,12 +36,7 @@ public class MyLinkedList<T> {
                 this.first = new Node<>(value, this.first, null);
                 this.size += 1;
             } else {
-                Node<T> elementTNode = this.first;
-                int count = 1;
-                while (elementTNode != null & count < index) {
-                    count += 1;
-                    elementTNode = elementTNode.getNext();
-                }
+                Node<T> elementTNode = getNodeByIndex(index);
                 if (elementTNode == null) {
                     add(value);
                 } else {
@@ -49,6 +48,7 @@ public class MyLinkedList<T> {
         }
     }
 
+    @Override
     public void remove() {
         if (this.size == 0) {
             return;
@@ -57,6 +57,7 @@ public class MyLinkedList<T> {
         this.size -= 1;
     }
 
+    @Override
     public void remove(Integer index) {
         if (index < 0 || this.size == 0 || index > this.size) {
             return;
@@ -64,12 +65,7 @@ public class MyLinkedList<T> {
         if (index == 0) {
             this.first = this.first.getNext();
         } else {
-            int count = 1;
-            Node<T> elementTNode = this.first;
-            while (elementTNode != null & count < index) {
-                count += 1;
-                elementTNode = elementTNode.getNext();
-            }
+            Node<T> elementTNode = getNodeByIndex(index);
             if (elementTNode != null) {
                 elementTNode.getPrev().setNext(elementTNode.getNext());
             }
@@ -77,19 +73,25 @@ public class MyLinkedList<T> {
         this.size -= 1;
     }
 
+    @Override
     public T getItem(Integer index) {
         if (index < 0 || this.size == 0 || index > this.size) {
             return null;
         }
-        Node<T> elementTNode = this.first;
+        return Objects.requireNonNull(getNodeByIndex(index)).getItem();
+    }
+
+    private Node<T> getNodeByIndex(Integer index) {
         int count = 1;
+        Node<T> elementTNode = this.first;
         while (elementTNode != null & count < index) {
             count += 1;
             elementTNode = elementTNode.getNext();
         }
-        return Objects.requireNonNull(elementTNode).getItem();
+        return elementTNode;
     }
 
+    @Override
     public void clear() {
         this.first = null;
         this.size = 0;
