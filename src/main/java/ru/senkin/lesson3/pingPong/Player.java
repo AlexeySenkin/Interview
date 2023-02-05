@@ -10,21 +10,24 @@ public class Player implements Runnable{
 
     private PingPong game;
 
+
     public Player(String name, PingPongPosition position, PingPong game) {
         this.playerName = name;
         this.position = position;
         this.game = game;
-        new Thread(this, name).start();
+        Thread playerThread = new Thread(this, this.playerName);
+        playerThread.start();
     }
 
     @Override
     public void run() {
-        while (true){
+        while (this.game.getKickCount() > 0){
             if (this.position == PingPongPosition.PING) {
-                game.ping();
+                this.game.ping();
             } else {
-                game.pong();
+                this.game.pong();
             }
+            this.game.setKickCount(this.game.getKickCount() - 1);
         }
 
     }

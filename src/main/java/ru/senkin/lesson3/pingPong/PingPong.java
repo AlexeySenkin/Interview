@@ -2,12 +2,15 @@ package ru.senkin.lesson3.pingPong;
 
 public class PingPong {
     private final Ball ball;
+
+    private Integer kickCount;
+
     private boolean waitFlag = false;
 
-    private int kickCount = 50;
 
-    public PingPong(Ball ball) {
+    public PingPong(Ball ball, Integer kickCount) {
         this.ball = ball;
+        this.kickCount = kickCount;
     }
 
     public synchronized void ping() {
@@ -18,13 +21,19 @@ public class PingPong {
                 e.printStackTrace();
             }
         }
-        System.out.println("Ping: " + this.ball +"  отбит");
+        System.out.println("Ping: " + this.ball +" отбит");
         this.waitFlag = true;
-        this.kickCount = this.kickCount - 1;
-        if (this.kickCount > 0) {
-            notify();
-        }
+        notify();
+
   }
+
+    public Integer getKickCount() {
+        return kickCount;
+    }
+
+    public void setKickCount(Integer kickCount) {
+        this.kickCount = kickCount;
+    }
 
     public synchronized void pong() {
         while (!this.waitFlag) {
@@ -36,11 +45,7 @@ public class PingPong {
         }
         System.out.println("Pong: " + this.ball +" отбит");
         this.waitFlag = false;
-        this.kickCount = this.kickCount - 1;
-        if (this.kickCount > 0) {
-            notify();
-        }
-
+        notify();
     }
 
     }
